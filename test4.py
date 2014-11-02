@@ -1,7 +1,14 @@
 import cv2, platform
 import numpy as np
+import urllib
 
-#import gi.repository
+
+# . ~/.profile
+# First
+# ffserver -d -f /etc/ffserver.conf
+# Second
+# ffmpeg -i  mmst://194.90.203.111/cam2 -q 1 http://localhost:8090/cam2.ffm
+
 
     # mms://194.90.203.111/cam2
     # ffmpeg -i mmst://194.90.203.111/cam2 -f rtsp rtsp://127.0.0.1:
@@ -12,6 +19,8 @@ import numpy as np
 
     
     # vlc http://192.168.0.103:8080/cam2
+
+
 def display_versions():
     # displays the version number of Python, Numpy and OpenCV.
     print "Python's version is " + platform.python_version()
@@ -21,23 +30,20 @@ def display_versions():
 display_versions()
 
 
-cam = "mms://194.90.203.111/cam"
+cam2 = "http://localhost:8090/cam2.mjpeg"
 #cam = 0 # Use  local webcam.
 
-cap = cv2.VideoCapture(cam)
-if not cap:
-    print("!!! Failed VideoCapture: invalid parameter!")
-
-
-while(True):
-    # Capture frame-by-frame
-    ret, current_frame = cap.read()
-    if type(current_frame) == type(None):
-        print("!!! Couldn't read frame!")
-        break
-
-    # Display the resulting frame
-    cv2.imshow('frame',current_frame)
+stream=urllib.urlopen(cam2)
+bytes=''
+while True:
+    bytes+=stream.read(1024)
+    a = bytes.find('\xff\xd8')
+    b = bytes.find('\xff\xd9')
+    if a!=-1 and b!=-1:
+        jpg = bytes[a:b+2]
+        bytes= bytes[b+2:]
+        frame = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8),cv2.CV_LOAD_IMAGE_COLOR)
+        cv2.imshow('cam2',frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
