@@ -1,0 +1,28 @@
+# http://www.steinm.com/blog/motion-detection-webcam-python-opencv-differential-images/
+
+def diffImg(t0, t1, t2):
+	  d1 = cv2.absdiff(t2, t1)
+	  d2 = cv2.absdiff(t1, t0)
+    return cv2.bitwise_and(d1, d2)
+    
+    
+
+
+
+
+# http://www.ayalonhw.co.il/map/
+cam_db = {
+# "cam_number" : (name_heb, name_eng, URL, [mask_list], x,y)
+
+"cam01" : (u"High Way 1", u"כביש מס' 1", "http://194.90.203.111:8000/cam1", ["cam01_mask1.png"], 320,240), 
+"cam02" : (u"Holon", u"חולון", "http://194.90.203.111:8000/cam2", ["cam12_mask1.png"], 320,240), 
+"cam03" : (u"Kubutz Galuyot", u"קיבוץ גלויות", "http://194.90.203.111:8000/cam3", ["cam03_mask1.png"], 320,240), 
+"cam04" : (u"La Guardia" ,u"לה גוורדייה" , "http://194.90.203.111:8000/cam4", ["cam04_mask1.png"], 320,240), 
+"cam05" : (, , "http://194.90.203.111:8000/cam5", ["cam05_mask1.png"], 320,240), 
+"cam06" : (, , "http://194.90.203.111:8000/cam6", ["cam06_mask1.png"], 320,240), 
+"cam07" : (, , "http://194.90.203.111:8000/cam7", ["cam07_mask1.png"], 320,240), 
+"cam08" : (, , "http://194.90.203.111:8000/cam8", ["cam08_mask1.png"], 320,240), 
+"cam09" : (, , "http://194.90.203.111:8000/cam9", ["cam09_mask1.png"], 320,240), 
+"cam10" : (, , "http://194.90.203.111:8000/cam10", ["cam10_mask1.png"], 320,240), 
+"cam11" : (, , "http://194.90.203.111:8000/cam11", ["cam11_mask1.png"], 320,240),
+"cam12" : (u"Herzelia", u"שבעת הכוכבים", u"http://194.90.203.111:8000/cam12", ["cam12_mask1.png"], 320,240), 
