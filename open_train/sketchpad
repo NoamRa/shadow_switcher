@@ -15,7 +15,7 @@ cam_db = {
 # "cam_number" : (name_heb, name_eng, URL, [mask_list], x,y)
 
 "cam01" : (u"High Way 1", u"כביש מס' 1", "http://194.90.203.111:8000/cam1", ["cam01_mask1.png"], 320,240), 
-"cam02" : (u"Holon", u"חולון", "http://194.90.203.111:8000/cam2", ["cam12_mask1.png"], 320,240), 
+"cam02" : (u"Holon", u"חולון", "http://194.90.203.111:8000/cam2", ["cam02_mask1.png"], 320,240), 
 "cam03" : (u"Kubutz Galuyot", u"קיבוץ גלויות", "http://194.90.203.111:8000/cam3", ["cam03_mask1.png"], 320,240), 
 "cam04" : (u"La Guardia" ,u"לה גוורדייה" , "http://194.90.203.111:8000/cam4", ["cam04_mask1.png"], 320,240), 
 "cam05" : (, , "http://194.90.203.111:8000/cam5", ["cam05_mask1.png"], 320,240), 
