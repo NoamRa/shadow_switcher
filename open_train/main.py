@@ -30,43 +30,52 @@ def display_versions():
 
 display_versions()
 
+def diffImg(t0, t1, t2):
+    d1 = cv2.absdiff(t2, t1)
+    d2 = cv2.absdiff(t1, t0)
+    return cv2.bitwise_and(d1, d2)
 
 cam2 = "http://localhost:8090/cam2.mjpeg"
 #cam2 = 0 # Use  local webcam.
 
+# get mask
 cam2_mask = cv2.imread(str(os.getcwd()) + "/cam2_mask.png")
 if cam2_mask == None:
     print "!!! Couldn't read image cam2_mask.png. CRASH TIME!"
-#cv2.imshow('cam2_mask',cam2_mask) #test mask loaded successfuly.
-#cam2_mask_dummy = cv2.imread(str(os.getcwd()) + "/cam2_mask_dummy.png")
 
+# get stream
+global stream
 stream=urllib.urlopen(cam2)
 if (stream == None) or (not stream):
     print "!!! Couldn't capture a stream!"
 
+global bytes
 bytes=''
 print "Press 'q' to quit."
+
+def make_frame(bytes):
+    out_frame = None
+    while out_frame != None:
+        # to read mjpeg frame - 
+        bytes+=stream.read(1024)
+        a = bytes.find('\xff\xd8')
+        print a
+        b = bytes.find('\xff\xd9')
+        print b
+        if a!=-1 and b!=-1:
+            jpg = bytes[a:b+2]
+            bytes= bytes[b+2:]
+            out_frame = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8),cv2.CV_LOAD_IMAGE_COLOR)
+            # we now have a mjpeg frame stored in frame.
+        else: 
+            print "SOMETHING'S WRONG WITH MAKE_FRAME()!"
+    return out_frame
+
 while True:
-    # to read mjpeg frame - 
-    bytes+=stream.read(1024)
-    print type(bytes)
-    #a = bytes.find('\xff\xd8')
-    print "a = " + str(a)
-    #b = bytes.find('\xff\xd9')
-    print "b = " + str(b)
-    if a!=-1 and b!=-1:
-        jpg = bytes[a:b+2]
-        bytes= bytes[b+2:]
-        frame = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8),cv2.CV_LOAD_IMAGE_COLOR)
-        # we now have a mjpeg frame stored in frame.
-
-        masked_frame = cv2.add(frame, cam2_mask)
-        #masked_frame = cv2.add(frame, cam2_mask_dummy)
-
-        #cv2.imshow('cam2',masked_frame)
-        cv2.imshow('cam2',frame)
-
-
+    frame = make_frame(bytes)
+    #masked_frame = cv2.add(frame, cam2_mask)
+    
+    cv2.imshow('cam2',frame)
 
     # Press q to quit.    
     if cv2.waitKey(1) & 0xFF == ord('q'):
