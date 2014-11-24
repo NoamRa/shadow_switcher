@@ -49,11 +49,11 @@ print "Press 'q' to quit."
 while True:
     # to read mjpeg frame - 
     bytes+=stream.read(1024)
-    print type(bytes)
-    #a = bytes.find('\xff\xd8')
-    print "a = " + str(a)
-    #b = bytes.find('\xff\xd9')
-    print "b = " + str(b)
+    #print type(bytes)
+    a = bytes.find('\xff\xd8')
+    #print "a = " + str(a)
+    b = bytes.find('\xff\xd9')
+    #print "b = " + str(b)
     if a!=-1 and b!=-1:
         jpg = bytes[a:b+2]
         bytes= bytes[b+2:]
@@ -65,8 +65,6 @@ while True:
 
         #cv2.imshow('cam2',masked_frame)
         cv2.imshow('cam2',frame)
-
-
 
     # Press q to quit.    
     if cv2.waitKey(1) & 0xFF == ord('q'):

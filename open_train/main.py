@@ -53,28 +53,50 @@ global bytes
 bytes=''
 print "Press 'q' to quit."
 
-def make_frame(bytes):
-    out_frame = None
-    while out_frame != None:
+
+def assert_frame(frame):
+    if frame == None:
+        return False
+    elif len(frame) == 0:
+        return False
+    elif len(frame) >= 1:
+        return True
+
+
+
+def make_frame():
+    bytes=''
+    out_frame = np.array([[[]]]) 
+    while True : 
+
         # to read mjpeg frame - 
         bytes+=stream.read(1024)
         a = bytes.find('\xff\xd8')
-        print a
+        #print a
         b = bytes.find('\xff\xd9')
-        print b
+        #print b
         if a!=-1 and b!=-1:
             jpg = bytes[a:b+2]
             bytes= bytes[b+2:]
             out_frame = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8),cv2.CV_LOAD_IMAGE_COLOR)
             # we now have a mjpeg frame stored in frame.
-        else: 
-            print "SOMETHING'S WRONG WITH MAKE_FRAME()!"
+            if assert_frame(out_frame): 
+                break
+            else:
+                
+                out_frame = np.array([]) 
+        # print "SOMETHING'S WRONG WITH MAKE_FRAME()!"
+
+    print "I GOT A FRAME!"
     return out_frame
 
+c = 0
 while True:
-    frame = make_frame(bytes)
+    frame = make_frame()
     #masked_frame = cv2.add(frame, cam2_mask)
-    
+    c = c+1
+    print c
+    print frame
     cv2.imshow('cam2',frame)
 
     # Press q to quit.    
