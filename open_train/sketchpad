@@ -12,7 +12,7 @@ def diffImg(t0, t1, t2):
 
 # http://www.ayalonhw.co.il/map/
 cam_db = {
-# "cam_number" : (name_heb, name_eng, URL, [mask_list], x,y)
+# "cam_number" : (name_eng, name_heb, URL, [mask_list], size_x,size_y)
 
 "cam01" : (u"High Way 1", u"כביש מס' 1", "http://194.90.203.111:8000/cam1", ["cam01_mask1.png"], 320,240), 
 "cam02" : (u"Holon", u"חולון", "http://194.90.203.111:8000/cam2", ["cam02_mask1.png"], 320,240), 
@@ -26,3 +26,4 @@ cam_db = {
 "cam10" : (, , "http://194.90.203.111:8000/cam10", ["cam10_mask1.png"], 320,240), 
 "cam11" : (, , "http://194.90.203.111:8000/cam11", ["cam11_mask1.png"], 320,240),
 "cam12" : (u"Herzelia", u"שבעת הכוכבים", u"http://194.90.203.111:8000/cam12", ["cam12_mask1.png"], 320,240), 
+}
